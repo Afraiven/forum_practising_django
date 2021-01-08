@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<h1 class="mb-4">Create new question</h1>
+<form action="/create_question/" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input class="btn btn-success float-right mt-1" type="submit" value="Submit">
+</form>
+<span class="footer-classes">
+    {% block footer-class %} position-absolute fixed-bottom {% endblock %}
+</span>
+{% endblock %}
+

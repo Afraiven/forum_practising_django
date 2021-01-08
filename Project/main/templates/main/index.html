@@ -1,0 +1,24 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+{% if latest_question_list %}
+    {% for question in latest_question_list %}
+        <div class="list-group ml-3">
+            <a href="{% url 'main:detail' question.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ question.question_text }}</h5>
+              <small>{{ question.get_date }}</small>
+            </div>
+            <p class="mb-1">{{ question.question_subtext }}</p>
+            <small class="votes">Votes:  33</small>
+          </a>
+        </div>
+    {% endfor %}
+    <div class="mb-5"></div>
+{% else %}
+    <p>Something went wrong</p>
+{% endif %}
+<span class="footer-classes">
+    {% block footer-class %} position-absolute w-100 {% endblock %}
+</span>
+{% endblock %}
