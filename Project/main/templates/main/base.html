@@ -29,12 +29,28 @@
             <a class="nav-link" href="#">Ranking</a>
           </li>
         </ul>
-        <span class="navbar-text">
+
+        <span class="navbar-text mr-3">
           Any problems? Don't hesitate to ask !
         </span>
+
+        <ul class="navbar-nav mr-5">
+          <li class="nav-item active mr-auto">
+            <a class="nav-link" href="/login/">Login</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/register/">Register</a>
+          </li>
+        </ul>
       </div>
     </nav>
-    <script src="{% static 'main/script.js' %}"></script>
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert text-center alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
     <div class="w-75 mx-auto mt-5">
         {% block content %}
         {% endblock %}
@@ -45,6 +61,8 @@
             <a class="text-white" >Filip Antoniak</a>
         </div>
     </footer>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" integrity="sha512-DkPsH9LzNzZaZjCszwKrooKwgjArJDiEjA5tTgr3YX4E6TYv93ICS8T41yFHJnnSmGpnf0Mvb5NhScYbwvhn2w==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js" integrity="sha512-0xrMWUXzEAc+VY7k48pWd5YT6ig03p4KARKxs4Bqxb9atrcn2fV41fWs+YXTKb8lD2sbPAmZMjKENiyzM/Gagw==" crossorigin="anonymous"></script>
+    <script src="{% static 'main/script.js' %}"></script>
 </body>
 </html>
