@@ -1,16 +1,40 @@
-console.log("CZE")
-const hero = document.querySelector('.hero')
-const slider = document.querySelector('.slider')
-const logo = document.querySelector('#logo')
-const hamburger = document.querySelector('.hamburger')
-const headline = document.querySelector('.headline')
+//
+//var question = document.getElementById('question');
+//
+//const tl = new TimelineMax();
+//console.log("CZE");
+//console.log(question.innerHTML);
+//
+//tl.fromTo(question, 1.2, {x: "-100%"}, {x: "0%", ease: Power2.easeInOut})
 
-
+var elements = document.getElementsByClassName("list-group");
 const tl = new TimelineMax();
+var num = 0.2
+for(var i=0; i<elements.length; i++) {
+    var question = elements[i];
+    num += 0.05
+    tl.fromTo(question, 0.5, {x: "-100%", opacity: "0"}, {x: "0%", ease: Power2.easeInOut, opacity: "1"}, "-="+num);
+}
 
-tl.fromTo(hero, 1, {height: "0%"}, {height: '80%', ease: Power2.easeInOut})
-.fromTo(hero, 1.2, {width: '100%'}, {width: '80%', ease: Power2.easeInOut})
-.fromTo(slider, 1.2, {x: "-100%"}, {x: "0%", ease: Power2.easeInOut}, "-=1.2")
-.fromTo(logo, 0.5, {opacity: 0, x: 30}, {opacity: 1, x: 0}, "-=0.5")
-.fromTo(hamburger, 0.5, {opacity: 0, x: 30}, {opacity: 1, x: 0}, "-=0.5")
-.fromTo(headline, 0.5, {opacity: 0, x: 30}, {opacity: 1, x: 0}, "-=0.5")
+(function () {
+  var angle = 0;
+  var p = document.querySelector('.navbar-text');
+  var text = p.textContent.split('');
+  var len = text.length;
+  var phaseJump = 360 / len;
+  var spans;
+
+  p.innerHTML = text.map(function (char) {
+    return '<span>' + char + '</span>';
+  }).join('');
+
+  spans = p.children;
+
+  (function wheee () {
+    for (var i = 0; i < len; i++) {
+      spans[i].style.color = 'hsl(' + (angle + Math.floor(i * phaseJump)) + ', 35%, 80%)';
+    }
+    angle++;
+    requestAnimationFrame(wheee);
+  })();
+})();
