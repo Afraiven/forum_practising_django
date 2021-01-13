@@ -1,12 +1,4 @@
-//
-//var question = document.getElementById('question');
-//
-//const tl = new TimelineMax();
-//console.log("CZE");
-//console.log(question.innerHTML);
-//
-//tl.fromTo(question, 1.2, {x: "-100%"}, {x: "0%", ease: Power2.easeInOut})
-
+//question sliding
 var elements = document.getElementsByClassName("list-group");
 const tl = new TimelineMax();
 var num = 0.2
@@ -16,6 +8,7 @@ for(var i=0; i<elements.length; i++) {
     tl.fromTo(question, 0.5, {x: "-100%", opacity: "0"}, {x: "0%", ease: Power2.easeInOut, opacity: "1"}, "-="+num);
 }
 
+//rainbow text
 (function () {
   var angle = 0;
   var p = document.querySelector('.navbar-text');
@@ -38,3 +31,14 @@ for(var i=0; i<elements.length; i++) {
     requestAnimationFrame(wheee);
   })();
 })();
+
+//messages disappearing
+var message_ele = document.querySelector('.alert')
+if (typeof message_ele != 'undefined') {
+    setTimeout(function(){
+        tl.fromTo(message_ele, 1, {opacity: "1", y: "0%"}, {opacity: "0", y: "-100%"});
+    }, 5000);
+    setTimeout(function(){
+       message_ele.style.display = "none";
+    }, 6100);
+}

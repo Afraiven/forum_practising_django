@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
 
 from .models import Choice, Question, Comment
 from .forms import CreateQuestionForm
@@ -102,6 +103,7 @@ def create_question_view(request):
             form_obj.user = request.user
             form_obj.pub_date = timezone.now()
 
+            messages.success(request, "Your question has been added successfully")
             form_obj.save()
             return HttpResponseRedirect(reverse('main:index'))
 

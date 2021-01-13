@@ -33,25 +33,28 @@
         <a href="{% url 'main:create_question' %}" class="navbar-text mr-3">
           Any problems? Don't hesitate to ask !
         </a>
-
         <ul class="navbar-nav mr-5">
+        {% if request.user.is_authenticated %}
+          <li class="nav-item active mr-auto"><a class="nav-link" href="/logout">Logout</a></li>
+        {% else %}
           <li class="nav-item active mr-auto">
             <a class="nav-link" href="/login/">Login</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="/register/">Register</a>
           </li>
+        {% endif %}
         </ul>
       </div>
     </nav>
     {% if messages %}
         {% for message in messages %}
-          <div class="alert text-center alert-{{ message.tags }}">
+          <div class="alert text-center alert-{{ message.tags }} position-absolute w-100">
             {{ message }}
           </div>
         {% endfor %}
     {% endif %}
-    <div class="w-75 mx-auto mt-5">
+    <div class="w-75 mx-auto mt-6">
         {% block content %}
         {% endblock %}
     </div>

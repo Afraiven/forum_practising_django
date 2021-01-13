@@ -5,3 +5,7 @@
 .footer-classes {
     display:none;
 }
+
+.mt-6 {
+    margin-top: 7vh !important;
+}

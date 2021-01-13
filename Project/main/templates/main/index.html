@@ -4,14 +4,19 @@
 {% if latest_question_list %}
     {% for question in latest_question_list %}
         <div id="question" class="list-group ml-3 mb-2">
-            <a href="{% url 'main:detail' question.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <span class="list-group-item list-group-item-action flex-column align-items-start">
+            <a class="list-group-item-action" href="{% url 'main:detail' question.id %}">
             <div class="d-flex w-100 justify-content-between">
               <h5  class="mb-1">{{ question.question_text }}</h5>
               <small>{{ question.get_date }}</small>
             </div>
             <p class="mb-1">{{ question.question_subtext }}</p>
             <small class="votes">Votes:  33</small>
-          </a>
+            </a>
+            <a href="#">
+                <small class="float-right">Posted By: <span class="text-primary">{{ question.user.username }}</span></small>
+            </a>
+        </span>
         </div>
     {% endfor %}
     <div class="mb-5"></div>
