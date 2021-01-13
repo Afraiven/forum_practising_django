@@ -30,7 +30,7 @@
           </li>
         </ul>
 
-        <a href="main:create_question" class="navbar-text mr-3">
+        <a href="{% url 'main:create_question' %}" class="navbar-text mr-3">
           Any problems? Don't hesitate to ask !
         </a>
 
@@ -50,7 +50,7 @@
             {{ message }}
           </div>
         {% endfor %}
-      {% endif %}
+    {% endif %}
     <div class="w-75 mx-auto mt-5">
         {% block content %}
         {% endblock %}

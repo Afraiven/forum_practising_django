@@ -1,8 +1,8 @@
 from django import forms
-from django.utils import timezone
+from .models import Question
 
 
-class CreateQuestionForm(forms.Form):
+class CreateQuestionForm(forms.ModelForm):
     question_text = forms.CharField(label='Question',
                                     max_length=200,
                                     widget=forms.TextInput({"placeholder": "Do Androids Dream of Electric Sheep?"})
@@ -12,4 +12,7 @@ class CreateQuestionForm(forms.Form):
                                        # Add some nice placeholders
                                        widget=forms.TextInput({"placeholder": ""})
                                        )
-    pub_date = timezone.now()
+
+    class Meta:
+        model = Question
+        fields = ['question_text', 'question_subtext']

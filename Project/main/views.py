@@ -2,9 +2,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from .models import Choice, Question, Comment
-from django.utils import timezone
 from .forms import CreateQuestionForm
 
 
@@ -89,6 +90,7 @@ class ResultsView(generic.DetailView):
     template_name = 'main/results.html'
 
 
+@login_required(login_url="/login/")
 def create_question_view(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -96,10 +98,12 @@ def create_question_view(request):
         form = CreateQuestionForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
-            return HttpResponseRedirect('/index/')
+            form_obj = form.save(commit=False)
+            form_obj.user = request.user
+            form_obj.pub_date = timezone.now()
+
+            form_obj.save()
+            return HttpResponseRedirect(reverse('main:index'))
 
     # if a GET (or any other method) we'll create a blank form
     else:

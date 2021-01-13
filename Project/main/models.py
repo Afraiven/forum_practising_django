@@ -3,12 +3,14 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib.humanize.templatetags import humanize
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):
     question_text = models.CharField(max_length=100)
     question_subtext = models.TextField(max_length=500)
     pub_date = models.DateTimeField('date published')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).pk)
 
     def get_date(self):
         return humanize.naturaltime(self.pub_date)
