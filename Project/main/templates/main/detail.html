@@ -1,26 +1,41 @@
 {% extends 'main/base.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 
-<h1>{{ question.question_text }}</h1>
+<a href="#">
+    <button class="btn btn-danger float-right">Vote Down</button>
+</a>
+<a href="#">
+    <button class="btn btn-success float-right mr-2">Vote Up</button>
+</a>
+<h2>{{ question.question_text }}</h2>
+<a class="float-right" href="/profile/{{ question.user.username }}">
+    <div class="text-dark mt-2">Posted By: <span class="text-primary">{{ question.user.username }}</span> {{ question.get_date }}</div>
+</a>
+<legend class="border-bottom"></legend>
+<h3 class="w-75 mt-4"><small>{{ question.question_subtext }}</small></h3>
+<legend class="border-bottom mt-5 mb-3"></legend>
 
+<span class="footer-classes">
+    {% block footer-class %} position-absolute fixed-bottom {% endblock %}
+</span>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 {% if question.comment_set.all.length > 0 %}
-    <h3>Komentarze: </h3>
+    <h3>Comments: </h3>
+{% else %}
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+                {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+        <button class="btn btn-outline-info float-right" type="submit">Answer</button>
+        </div>
+    </form>
 {% endif %}
 <ul>
     {% for comment in question.comment_set.all %}
             <li>-{{ comment.comment_text }}</li>
     {% endfor %}
 </ul>
-<form action="{% url 'main:vote' question.id %}" method="post">
-    {% csrf_token %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-<input type="submit" value="Vote">
-</form>
-<span class="footer-classes">
-    {% block footer-class %} position-absolute fixed-bottom {% endblock %}
-</span>
 {% endblock %}

@@ -33,8 +33,10 @@ class Choice(models.Model):
 
 
 class Comment(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    comment_text = models.CharField(max_length=200)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, default=Question.objects.get(pk=1).pk)
+    pub_date = timezone.now()
+    comment_text = models.CharField(max_length=400)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).pk)
 
     def __str__(self):
         return self.comment_text

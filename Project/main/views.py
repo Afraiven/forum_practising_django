@@ -1,36 +1,13 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
-from .models import Choice, Question, Comment
-from .forms import CreateQuestionForm
-
-
-def comment(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        # instead of it you should create new comment !!!!!
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Comment.DoesNotExist):
-        # This is OK.
-        # Redisplay the question voting form.
-        return render(request, 'main/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        # This is not ok
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        # THANKS FOR SUCH A GREAT ADVICE !!! I was literally looking for this
-        return HttpResponseRedirect(reverse('main:results', args=(question.id,)))
+from .models import Choice, Question
+from .forms import CreateQuestionForm, CreateCommentForm
 
 
 def vote(request, question_id):
@@ -73,17 +50,34 @@ class IndexView(generic.ListView):
 
 
 # BOTH ListView and DetailView are predeclared classes from django.views.generic
-class DetailView(generic.DetailView):
+class DetailView(generic.FormView, generic.DetailView):
     # model equals to Question model
-    model = Question
-    # name of template
+    form_class = CreateCommentForm
     template_name = 'main/detail.html'
+
+    def get_success_url(self):
+        return reverse('main:detail', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        # self.success_url = reverse(str())
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form_obj = form.save(commit=False)
+        form_obj.user = self.request.user
+        form_obj.pub_date = timezone.now()
+
+        messages.success(self.request, "Answer posted")
+        form_obj.save()
+        return super().form_valid(form)
 
     def get_queryset(self):
         """
-        Excludes any questions that aren't published yet.
+        Return the last five published questions (not including those set to be
+        published in the future).
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Question.objects.filter(
+            pub_date__lte=timezone.now()
+        ).order_by('-pub_date')
 
 
 class ResultsView(generic.DetailView):

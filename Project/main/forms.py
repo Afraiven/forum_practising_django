@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question
+from .models import Question, Comment
 
 
 class CreateQuestionForm(forms.ModelForm):
@@ -16,3 +16,14 @@ class CreateQuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['question_text', 'question_subtext']
+
+
+class CreateCommentForm(forms.ModelForm):
+    comment_text = forms.CharField(label='Comment',
+                                   max_length=400,
+                                   widget=forms.TextInput({"placeholder": "Answer"})
+                                   )
+
+    class Meta:
+        model = Comment
+        fields = ['comment_text']
