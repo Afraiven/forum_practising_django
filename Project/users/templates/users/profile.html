@@ -1,0 +1,15 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="py-4 px-5 list-group list-group-item flex-column align-items-start" style="height: 43em !important;">
+        <img class="rounded-circle profile-img float-left" src="{{ chosen_user.profile.image.url }}">
+        <div class="media-body" style="padding-left: 13em !important;">
+            <h2 class="profile-heading">{{ chosen_user.username }}</h2>
+            <legend class="border-bottom mb-4"></legend>
+            <p class="text-secondary">{{ chosen_user.email }}</p>
+        </div>
+    </div>
+<span class="footer-classes">
+    {% block footer-class %} position-absolute fixed-bottom {% endblock %}
+</span>
+{% endblock content %}

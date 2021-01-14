@@ -33,7 +33,7 @@ for(var i=0; i<elements.length; i++) {
 })();
 
 //messages disappearing
-var message_ele = document.querySelector('.alert')
+var message_ele = document.querySelector('.alert-success')
 if (typeof message_ele != 'undefined') {
     setTimeout(function(){
         tl.fromTo(message_ele, 1, {opacity: "1", y: "0%"}, {opacity: "0", y: "-100%"});

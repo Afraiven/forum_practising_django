@@ -9,3 +9,16 @@
 .mt-6 {
     margin-top: 7vh !important;
 }
+
+.profile-img {
+  height: 175px;
+  width: 175px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.profile-heading {
+  font-size: 2.5rem;
+  margin-top: 1%;
+}
+
