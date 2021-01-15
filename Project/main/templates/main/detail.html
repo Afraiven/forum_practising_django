@@ -8,34 +8,44 @@
 <a href="#">
     <button class="btn btn-success float-right mr-2">Vote Up</button>
 </a>
+<div class="float-right mr-3 mt-2">Votes: {{ question.votes }}</div>
 <h2>{{ question.question_text }}</h2>
 <a class="float-right" href="/profile/{{ question.user.username }}">
     <div class="text-dark mt-2">Posted By: <span class="text-primary">{{ question.user.username }}</span> {{ question.get_date }}</div>
 </a>
 <legend class="border-bottom"></legend>
-<h3 class="w-75 mt-4"><small>{{ question.question_subtext }}</small></h3>
-<legend class="border-bottom mt-5 mb-3"></legend>
+<h3 class="w-75 mt-4 mb-5"><small>{{ question.question_subtext }}</small></h3>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% if question.comment_set.all.count > 0 %}
+    <h3 class="mt-5">Answers: </h3>
+{% else %}
+    <h4 class="mt-5">0 Answers</h4>
+{% endif %}
+{% if request.user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+    <button class="btn btn-outline-info float-right" type="submit">Answer</button>
+    </div>
+</form>
+{% else %}
+<a class="float-right" href="/login/">
+    <div class="text-primary mt-2">Login To Answer</div>
+</a>
+{% endif %}
+<ul class="mt-5">
+    {% for comment in question.comment_set.all %}
+    <li class="mt-2 list-group-item-action flex-column align-items-start">
+        <a href="/profile/{{ comment.user.username }}" class="text-primary">{{ comment.user }}</a>: {{ comment.comment_text }} - {{ comment.get_date }}
+    </li>
+    {% endfor %}
+</ul>
 
 <span class="footer-classes">
     {% block footer-class %} position-absolute fixed-bottom {% endblock %}
 </span>
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-{% if question.comment_set.all.length > 0 %}
-    <h3>Comments: </h3>
-{% else %}
-    <form method="POST">
-        {% csrf_token %}
-        <fieldset class="form-group">
-                {{ form|crispy }}
-        </fieldset>
-        <div class="form-group">
-        <button class="btn btn-outline-info float-right" type="submit">Answer</button>
-        </div>
-    </form>
-{% endif %}
-<ul>
-    {% for comment in question.comment_set.all %}
-            <li>-{{ comment.comment_text }}</li>
-    {% endfor %}
-</ul>
 {% endblock %}

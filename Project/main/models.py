@@ -11,6 +11,7 @@ class Question(models.Model):
     question_subtext = models.TextField(max_length=500)
     pub_date = models.DateTimeField('date published')
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).pk)
+    votes = models.IntegerField(default=0)
 
     def get_date(self):
         return humanize.naturaltime(self.pub_date)
@@ -32,11 +33,19 @@ class Choice(models.Model):
         return self.choice_text
 
 
+def return_date_time():
+    now = timezone.now()
+    return now + timezone.timedelta(days=1)
+
+
 class Comment(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, default=Question.objects.get(pk=1).pk)
-    pub_date = timezone.now()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, default=1)
+    pub_date = models.DateTimeField('date published', default=return_date_time)
     comment_text = models.CharField(max_length=400)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.get(pk=1).pk)
+
+    def get_date(self):
+        return humanize.naturaltime(self.pub_date)
 
     def __str__(self):
         return self.comment_text

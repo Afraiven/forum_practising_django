@@ -64,6 +64,7 @@ class DetailView(generic.FormView, generic.DetailView):
         # It should return an HttpResponse.
         form_obj = form.save(commit=False)
         form_obj.user = self.request.user
+        form_obj.question = Question.objects.get(pk=self.kwargs['pk'])
         form_obj.pub_date = timezone.now()
 
         messages.success(self.request, "Answer posted")
