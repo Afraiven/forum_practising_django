@@ -6,7 +6,7 @@ app_name = 'main'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
-    path('<int:question_id>/vote/', views.vote, name='vote'),
+    path('<int:question_id>/voteup/', views.vote_up, name='vote_up'),
+    path('<int:question_id>/votedown/', views.vote_down, name='vote_down'),
     path('create_question/', views.create_question_view, name='create_question'),
 ]

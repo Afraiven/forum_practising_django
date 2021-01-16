@@ -1,10 +1,5 @@
 from django.contrib import admin
-from .models import Question, Choice, Comment
-
-
-class ChoiceInline(admin.TabularInline):
-    model = Choice
-    extra = 3
+from .models import Question, Comment
 
 
 class CommentInline(admin.TabularInline):
@@ -13,7 +8,7 @@ class CommentInline(admin.TabularInline):
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    inlines = [ChoiceInline, CommentInline]
+    inlines = [CommentInline]
 
 
 admin.site.register(Question, QuestionAdmin)

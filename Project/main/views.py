@@ -6,30 +6,32 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
-from .models import Choice, Question
+from .models import Question, Voter
 from .forms import CreateQuestionForm, CreateCommentForm
 
 
-def vote(request, question_id):
-    # checks if there is an object Question if not it raises 404
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        # get choice assigned to the question with automatic choice_set made by django <3
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'main/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
+def vote_up(request, question_id):
+    if Voter.objects.filter(question_id=question_id, user_id=request.user.id).exists():
+        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)), {
+            'question': question_id,
+            'error_message': "Sorry, but you have already voted."
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        # THANKS FOR SUCH A GREAT ADVICE !!! I was literally looking for this
-        return HttpResponseRedirect(reverse('main:results', args=(question.id,)))
+        question = get_object_or_404(Question, pk=question_id)
+        print(question.votes)
+        question.votes += 1
+        question.save()
+        v = Voter(user=request.user, question=question)
+        v.save()
+        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
+
+
+def vote_down(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    print(question.votes)
+    question.votes -= 1
+    question.save()
+    return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
 
 
 # class index inherits from django.views.generic ListView
@@ -81,11 +83,6 @@ class DetailView(generic.FormView, generic.DetailView):
         ).order_by('-pub_date')
 
 
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'main/results.html'
-
-
 @login_required(login_url="/login/")
 def create_question_view(request):
     # if this is a POST request we need to process the form data
@@ -107,3 +104,4 @@ def create_question_view(request):
         form = CreateQuestionForm()
 
     return render(request, 'main/create_question.html', {'form': form})
+
