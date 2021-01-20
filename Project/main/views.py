@@ -6,32 +6,62 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
-from .models import Question, Voter
+from .models import Question, VoterUp, VoterDown
 from .forms import CreateQuestionForm, CreateCommentForm
 
 
 def vote_up(request, question_id):
-    if Voter.objects.filter(question_id=question_id, user_id=request.user.id).exists():
+    if VoterUp.objects.filter(question_id=question_id, user_id=request.user.id).exists():
+        question = get_object_or_404(Question, pk=question_id)
+        question.votes -= 1
+        question.save()
+        v = VoterUp.objects.filter(user=request.user).first()
+        v.delete()
         return HttpResponseRedirect(reverse('main:detail', args=(question_id,)), {
             'question': question_id,
-            'error_message': "Sorry, but you have already voted."
+            'outline': False,
         })
     else:
         question = get_object_or_404(Question, pk=question_id)
-        print(question.votes)
+        if question.votes == 0 and VoterUp.objects.filter(user=request.user).count() == 1:
+            v = VoterUp.objects.filter(user=request.user).first()
+            v.delete()
         question.votes += 1
         question.save()
-        v = Voter(user=request.user, question=question)
+        v = VoterUp(user=request.user, question=question)
+        messages.success(request, "Voted Up")
         v.save()
-        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
+        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)), {
+            'question': question_id,
+            'outline': True,
+        })
 
 
 def vote_down(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    print(question.votes)
-    question.votes -= 1
-    question.save()
-    return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
+    if VoterDown.objects.filter(question_id=question_id, user_id=request.user.id).exists():
+        question = get_object_or_404(Question, pk=question_id)
+        question.votes += 1
+        question.save()
+        v = VoterDown.objects.filter(user=request.user).first()
+        v.delete()
+        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)), {
+            'question': question_id,
+            'outline': False,
+        })
+    else:
+        question = get_object_or_404(Question, pk=question_id)
+        if question.votes == 0 and VoterDown.objects.filter(user=request.user).count() == 1:
+            v = VoterDown.objects.filter(user=request.user).first()
+            v.delete()
+        question.votes -= 1
+        question.save()
+        v = VoterDown(user=request.user, question=question)
+        messages.warning(request, "Voted Down")
+        v.save()
+        return HttpResponseRedirect(reverse('main:detail', args=(question_id,)), {
+            'question': question_id,
+            'outline': True,
+        })
 
 
 # class index inherits from django.views.generic ListView

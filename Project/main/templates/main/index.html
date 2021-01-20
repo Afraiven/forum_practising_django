@@ -11,7 +11,7 @@
               <small>{{ question.get_date }}</small>
             </div>
             <p class="mb-1">{{ question.question_subtext }}</p>
-            <small class="votes">Votes:  33</small>
+            <small class="votes">Votes:  {{ question.votes }}</small>
             <object>
                 <a href="/profile/{{ question.user.username }}">
                     <small class="text-dark float-right">Posted By: <span class="text-primary">{{ question.user.username }}</span></small>

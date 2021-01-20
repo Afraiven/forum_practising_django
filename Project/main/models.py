@@ -42,7 +42,12 @@ class Comment(models.Model):
         return self.comment_text
 
 
-class Voter(models.Model):
+class VoterUp(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+
+class VoterDown(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
