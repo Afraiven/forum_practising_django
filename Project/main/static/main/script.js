@@ -33,12 +33,12 @@ for(var i=0; i<elements.length; i++) {
 })();
 
 //messages disappearing
-var message_ele = document.querySelector('.alert-success')
+var message_ele = document.querySelector('.alert')
 if (typeof message_ele != 'undefined') {
     setTimeout(function(){
         tl.fromTo(message_ele, 1, {opacity: "1", y: "0%"}, {opacity: "0", y: "-100%"});
-    }, 5000);
+    }, 2000);
     setTimeout(function(){
        message_ele.style.display = "none";
-    }, 6100);
+    }, 2100);
 }

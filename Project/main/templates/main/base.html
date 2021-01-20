@@ -53,9 +53,11 @@
     </nav>
     {% if messages %}
         {% for message in messages %}
-          <div class="alert text-center alert-{{ message.tags }} position-absolute w-100">
-            {{ message }}
-          </div>
+            {% if message.tags != 'info' %}
+                <div class="alert text-center alert-{{ message.tags }} position-absolute w-100">
+                    {{ message }}
+                </div>
+            {% endif %}
         {% endfor %}
     {% endif %}
     <div class="w-75 mx-auto mt-6" style="min-height: 79.3vh;">

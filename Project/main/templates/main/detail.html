@@ -2,28 +2,35 @@
 {% block content %}
 {% load crispy_forms_tags %}
 
-{% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'warning' %}
+{% for message in messages %}
+    {% if message.tags == 'info' %}
+        {% if message.message == '1' %}
+            <form action="{% url 'main:vote_down' question.id %}" method='GET'>
+                <button type="submit" class="btn btn-outline-danger float-right">Vote Down</button>
+            </form>
+            <form action="{% url 'main:vote_up' question.id %}" method='GET'>
+                <button class="btn btn-success float-right mr-2">Voted Up</button>
+            </form>
+        {% elif message.message == '-1' %}
             <form action="{% url 'main:vote_down' question.id %}" method='GET'>
                 <button type="submit" class="btn btn-danger float-right">Voted Down</button>
+            </form>
+            <form action="{% url 'main:vote_up' question.id %}" method='GET'>
+                <button class="btn btn-outline-success float-right mr-2">Vote Up</button>
             </form>
         {% else %}
             <form action="{% url 'main:vote_down' question.id %}" method='GET'>
                 <button type="submit" class="btn btn-outline-danger float-right">Vote Down</button>
             </form>
+            <form action="{% url 'main:vote_up' question.id %}" method='GET'>
+                <button class="btn btn-outline-success float-right mr-2">Vote Up</button>
+            </form>
         {% endif %}
-    {% endfor %}
-{% else %}
-    <form action="{% url 'main:vote_down' question.id %}" method='GET'>
-        <button type="submit" class="btn btn-outline-danger float-right">Vote Down</button>
-    </form>
-{% endif %}
+    {% endif %}
+{% endfor %}
 
 
-<form action="{% url 'main:vote_up' question.id %}" method='GET'>
-    <button class="btn btn-success float-right mr-2">Vote Up</button>
-</form>
+
 <div class="float-right mr-3 mt-2">Votes: {{ question.votes }}</div>
 <h2>{{ question.question_text }}</h2>
 <a class="float-right" href="/profile/{{ question.user.username }}">
