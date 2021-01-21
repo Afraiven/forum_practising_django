@@ -12,6 +12,8 @@
             </div>
             <p class="mb-1">{{ question.question_subtext }}</p>
             <small class="votes">Votes:  {{ question.votes }}</small>
+            <small class="p-1"></small>
+            <small class="votes">Comments:  {{ question.comment_set.all.count }}</small>
             <object>
                 <a href="/profile/{{ question.user.username }}">
                     <small class="text-dark float-right">Posted By: <span class="text-primary">{{ question.user.username }}</span></small>

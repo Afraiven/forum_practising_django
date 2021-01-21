@@ -6,8 +6,16 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
-from .models import Question, VoterUp, VoterDown
+from .models import Question, VoterUp, VoterDown, Comment
 from .forms import CreateQuestionForm, CreateCommentForm
+
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    question_id = comment.question.id
+    comment.delete()
+
+    return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
 
 
 def vote_up(request, question_id):

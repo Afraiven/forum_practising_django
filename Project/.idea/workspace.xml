@@ -4,9 +4,11 @@
     <list default="true" id="f969e090-a5f2-4434-8e71-6c56279ef91b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/static/main/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/main/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/static/main/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/main/static/main/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/main/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/main/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/templates/main/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
