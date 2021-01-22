@@ -70,6 +70,7 @@ class IndexView(generic.ListView):
     template_name = 'main/index.html'
     # name of sth called context object
     context_object_name = 'latest_question_list'
+    paginate_by = 8
 
     # func that returns queryset of Questions sorted by publication date
     def get_queryset(self):
