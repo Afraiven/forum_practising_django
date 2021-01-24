@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Comment
+from .models import Question, Comment, Category
 
 
 class CreateQuestionForm(forms.ModelForm):
@@ -12,10 +12,14 @@ class CreateQuestionForm(forms.ModelForm):
                                        # Add some nice placeholders
                                        widget=forms.TextInput({"placeholder": ""})
                                        )
+    category = forms.ModelMultipleChoiceField(
+                                            queryset=Category.objects.all(),
+                                            widget=forms.SelectMultiple()
+                                            )
 
     class Meta:
         model = Question
-        fields = ['question_text', 'question_subtext']
+        fields = ['question_text', 'question_subtext', 'category']
 
 
 class CreateCommentForm(forms.ModelForm):

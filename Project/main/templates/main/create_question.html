@@ -4,7 +4,9 @@
 <h1 class="mb-4">Create new question</h1>
 <form action="/create_question/" method="post">
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ form.question_text|as_crispy_field }}
+    {{ form.question_subtext|as_crispy_field }}
+    {{ form.category|as_crispy_field }}
     <input class="btn btn-success float-right mt-1" type="submit" value="Submit">
 </form>
 <span class="footer-classes">

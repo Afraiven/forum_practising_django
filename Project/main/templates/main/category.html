@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h1 class="mb-5">Categories</h1>
+
+{% for q in cat %}
+<div class="list-group-item-action flex-column align-items-start list-group-item"><ul><h3>Top 10 Questions from <a href="#">#{{ q }}</a></h3>
+    {% for p in q.questions.all|dictsort:"votes" reversed %}
+        {% if forloop.counter < 11 %}
+            <li><a href="{% url 'main:detail' p.id %}">{{ p }}</a> {{ p.votes }} votes</li>
+        {% endif %}
+    {% endfor %}
+    </ul></div>
+{% endfor %}
+<div class="p-3 w-100 mb-5"></div>
+
+<span class="footer-classes">
+    {% block footer-class %} position-absolute w-100 {% endblock %}
+</span>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
 
-from .models import Question, VoterUp, VoterDown, Comment
+from .models import Question, VoterUp, VoterDown, Comment, Category
 from .forms import CreateQuestionForm, CreateCommentForm
 
 
@@ -75,7 +75,7 @@ class IndexView(generic.ListView):
         """
         return Question.objects.filter(
             pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:10]
+        ).order_by('-pub_date')
 
 
 class DetailView(generic.FormView, generic.DetailView):
@@ -130,17 +130,22 @@ def create_question_view(request):
 
 class RankingView(generic.ListView):
     template_name = 'main/ranking.html'
-    # name of sth called context object
     context_object_name = 'latest_question_list'
     paginate_by = 10
 
-    # func that returns queryset of Questions sorted by publication date
     def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
         return Question.objects.filter(
             pub_date__lte=timezone.now()
         ).order_by('-votes')[:10]
 
+
+class CategoryView(generic.ListView):
+    template_name = 'main/category.html'
+    context_object_name = 'cat'
+
+    def get_queryset(self):
+            cat = Category.objects.all()
+            # objects = question.category.all()  # this line return all related objects for CartToys
+            # cat = Category.objects.last()
+            # cat = cat.question_set.all()  # this line return all related objects for Cart
+            return cat

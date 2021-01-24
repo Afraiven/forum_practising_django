@@ -24,6 +24,14 @@ class Question(models.Model):
         return self.question_text
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    questions = models.ManyToManyField(Question)
+
+    def __str__(self):
+        return self.name
+
+
 def return_date_time():
     now = timezone.now()
     return now + timezone.timedelta(days=1)
