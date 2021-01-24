@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<div class="mx-auto text-center mb-5">
+    <h1><i class="text-warning fa fa-trophy"></i> Top 10 Voted Questions <i class="text-warning fa fa-trophy"></i></h1>
+</div>
+
+{% if latest_question_list %}
+    {% for question in latest_question_list %}
+        <div id="question" class="list-group ml-3 mb-2">
+            <span class="list-group-item-action flex-column align-items-start">
+            <a class="
+                list-group-item list-group-item-action
+                    {% if question == latest_question_list.0 %}
+                        gold
+                    {% elif question == latest_question_list.1 %}
+                        silver
+                    {% elif question == latest_question_list.2 %}
+                        bronze
+                    {% endif %}
+                "
+               href="{% url 'main:detail' question.id %}">
+            <div class="d-flex w-100 justify-content-between">
+              <h5  class="mb-1">{{ question.question_text }}</h5>
+              <small>{{ question.get_date }}</small>
+            </div>
+            <p class="mb-1">{{ question.question_subtext }}</p>
+            <small class="votes">Votes:  {{ question.votes }}</small>
+            <small class="p-1"></small>
+            <small class="votes">Comments:  {{ question.comment_set.all.count }}</small>
+            <object>
+                <a href="/profile/{{ question.user.username }}">
+                    <small class="text-dark float-right">Posted By: <span class="text-primary">{{ question.user.username }}</span></small>
+                </a>
+            </object>
+            </a>
+        </span>
+        </div>
+    {% endfor %}
+    <div class="mb-5"></div>
+{% else %}
+    <p>Something went wrong</p>
+{% endif %}
+
+<div class="text-center w-100 mx-auto mb-3 ">
+    {% if is_paginated %}
+
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+</div>
+
+<span class="footer-classes">
+    {% block footer-class %} position-absolute w-100 {% endblock %}
+</span>
+{% endblock %}

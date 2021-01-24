@@ -25,3 +25,15 @@
 .block-height{
     height: 100%;
 }
+
+.gold {
+ background-color: #f9dc64 !important;
+}
+
+.silver {
+ background-color: #cacaca !important;
+}
+
+.bronze {
+ background-color: #e19b55 !important;
+}

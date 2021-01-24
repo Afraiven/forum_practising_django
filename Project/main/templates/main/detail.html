@@ -53,7 +53,7 @@
     </form>
 {% else %}
     <h3 class="mt-5 mb-4">{{ question.comment_set.all.count }} Answers:
-        <a class="float-right" href="/login/">
+        <a class="float-right" href="/login/?next={% url 'main:detail' question.id %}">
             <small class="text-primary mt-2">Login To Answer</small>
         </a>
     </h3>

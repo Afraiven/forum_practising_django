@@ -19,7 +19,6 @@ def delete_comment(request, comment_id):
 
 
 def vote_up(request, question_id):
-    # if user has voted up the question before, delete his (up)vote
     if VoterUp.objects.filter(question_id=question_id, user_id=request.user.id).exists():
         question = get_object_or_404(Question, pk=question_id)
         question.votes -= 1
@@ -27,7 +26,6 @@ def vote_up(request, question_id):
         v = VoterUp.objects.filter(user=request.user).all()
         v.delete()
 
-    # if not and user voted down question delete his (down)vote and save (up)vote
     else:
         messages.success(request, "Voted Up")
         question = get_object_or_404(Question, pk=question_id)
@@ -65,14 +63,11 @@ def vote_down(request, question_id):
     return HttpResponseRedirect(reverse('main:detail', args=(question_id,)))
 
 
-# class index inherits from django.views.generic ListView
 class IndexView(generic.ListView):
     template_name = 'main/index.html'
-    # name of sth called context object
     context_object_name = 'latest_question_list'
     paginate_by = 8
 
-    # func that returns queryset of Questions sorted by publication date
     def get_queryset(self):
         """
         Return the last five published questions (not including those set to be
@@ -83,9 +78,7 @@ class IndexView(generic.ListView):
         ).order_by('-pub_date')[:10]
 
 
-# BOTH ListView and DetailView are predeclared classes from django.views.generic
 class DetailView(generic.FormView, generic.DetailView):
-    # model equals to Question model
     form_class = CreateCommentForm
     template_name = 'main/detail.html'
 
@@ -118,11 +111,8 @@ class DetailView(generic.FormView, generic.DetailView):
 
 @login_required(login_url="/login/")
 def create_question_view(request):
-    # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = CreateQuestionForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
             form_obj = form.save(commit=False)
             form_obj.user = request.user
@@ -132,9 +122,25 @@ def create_question_view(request):
             form_obj.save()
             return HttpResponseRedirect(reverse('main:index'))
 
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = CreateQuestionForm()
 
     return render(request, 'main/create_question.html', {'form': form})
+
+
+class RankingView(generic.ListView):
+    template_name = 'main/ranking.html'
+    # name of sth called context object
+    context_object_name = 'latest_question_list'
+    paginate_by = 10
+
+    # func that returns queryset of Questions sorted by publication date
+    def get_queryset(self):
+        """
+        Return the last five published questions (not including those set to be
+        published in the future).
+        """
+        return Question.objects.filter(
+            pub_date__lte=timezone.now()
+        ).order_by('-votes')[:10]
 
