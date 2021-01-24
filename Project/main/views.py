@@ -69,10 +69,6 @@ class IndexView(generic.ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
         return Question.objects.filter(
             pub_date__lte=timezone.now()
         ).order_by('-pub_date')
@@ -100,10 +96,6 @@ class DetailView(generic.FormView, generic.DetailView):
             messages.info(self.request, str(VoterUp.objects.filter(user=self.request.user).count()-VoterDown.objects.filter(user=self.request.user).count()))
         except:
             pass
-        """
-        Return the last five published questions (not including those set to be
-        published in the future).
-        """
         return Question.objects.filter(
             pub_date__lte=timezone.now()
         ).order_by('-pub_date')
@@ -144,8 +136,18 @@ class CategoryView(generic.ListView):
     context_object_name = 'cat'
 
     def get_queryset(self):
-            cat = Category.objects.all()
-            # objects = question.category.all()  # this line return all related objects for CartToys
-            # cat = Category.objects.last()
-            # cat = cat.question_set.all()  # this line return all related objects for Cart
-            return cat
+        cat = Category.objects.all()
+        return cat
+
+
+class CategoryIndexView(generic.ListView):
+    template_name = 'main/category_index.html'
+    context_object_name = 'category_index'
+    paginate_by = 8
+
+    def get_queryset(self):
+        cat = Category.objects.get(name=self.kwargs['category'])
+        return (Question.objects.filter(
+            category=cat
+        ).order_by('-pub_date'), cat)
+
