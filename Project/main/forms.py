@@ -14,7 +14,7 @@ class CreateQuestionForm(forms.ModelForm):
                                        )
     category = forms.ModelMultipleChoiceField(
                                             queryset=Category.objects.all(),
-                                            widget=forms.SelectMultiple()
+                                            widget=forms.CheckboxSelectMultiple()
                                             )
 
     class Meta:

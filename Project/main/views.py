@@ -108,10 +108,16 @@ def create_question_view(request):
         if form.is_valid():
             form_obj = form.save(commit=False)
             form_obj.user = request.user
+            x = request.POST.getlist("category")
+            cats = [Category.objects.get(id=i) for i in x]
+
             form_obj.pub_date = timezone.now()
 
             messages.success(request, "Your question has been added successfully")
             form_obj.save()
+
+            for cat in cats:
+                cat.questions.add(form_obj)
             return HttpResponseRedirect(reverse('main:index'))
 
     else:
