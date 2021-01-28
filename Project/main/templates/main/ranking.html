@@ -1,9 +1,17 @@
 {% extends 'main/base.html' %}
 {% block content %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
+
+<div class="w-100 p-3"></div>
 <div class="mx-auto text-center mb-5">
-    <h1><i class="text-warning fa fa-trophy"></i> Top 10 Voted Questions <i class="text-warning fa fa-trophy"></i></h1>
+
+    <button class="btn btn-warning float-left ml-5" onclick="slide()"><h2><i class='fas fa-angle-left'></i></h2></button>
+    <span class="h1"><i class="text-warning fa fa-trophy"></i><span id="ranking-type"> Top 10 Voted Questions </span><i class="text-warning fa fa-trophy"></i></span>
+    <button class="btn btn-warning float-right mr-5" onclick="slide()"><h2><i class='fas fa-angle-right'></i></h2></button>
+
 </div>
+<div class="w-100 p-3"></div>
 
 {% if latest_question_list %}
     {% for question in latest_question_list %}

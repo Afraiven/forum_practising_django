@@ -41,4 +41,24 @@ if (typeof message_ele != 'undefined') {
     setTimeout(function(){
        message_ele.style.display = "none";
     }, 2100);
+};
+
+function slide() {
+  if (document.getElementById("ranking-type").innerHTML == " Top 10 Voted Questions "){
+    document.getElementById("ranking-type").innerHTML = " Top 10 Users "
+    console.log(document.getElementById("ranking-type").innerHTML)
+    RankingAppear()
+  } else {
+    document.getElementById("ranking-type").innerHTML = " Top 10 Voted Questions "
+    console.log(document.getElementById("ranking-type").innerHTML)
+    RankingAppear()
+  }
 }
+
+//appearing ranking-type
+function RankingAppear() {
+var element = document.getElementById("ranking-type");
+t2 = new TimelineMax()
+t2.fromTo(element, 1, {opacity: "0.1"}, {opacity: "1"});
+}
+RankingAppear()

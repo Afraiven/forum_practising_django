@@ -30,7 +30,7 @@
 {% endfor %}
 
 {% for category in question.category_set.all %}
-    <a href="{% url 'main:category' %}"><small>#{{ category }}</small></a>
+    <a href="{% url 'main:category' category %}"><small>#{{ category }}</small></a>
 {% endfor %}
 <div class="float-right mr-3 mt-2">Votes: {{ question.votes }}</div>
 <h2>{{ question.question_text }}</h2>
