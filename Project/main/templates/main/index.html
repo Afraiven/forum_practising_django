@@ -1,6 +1,10 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
+<div class="title_font d-flex justify-content-center mb-5">
+    <h1>Ergonomizer - forum na temat ergonomii</h1>
+</div>
+
 {% if latest_question_list %}
     {% for question in latest_question_list %}
         <div id="question" class="list-group ml-3 mb-2">
@@ -32,8 +36,8 @@
     {% if is_paginated %}
 
         {% if page_obj.has_previous %}
-            <a class="btn btn-outline-dark mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            <a class="btn btn-outline-dark mb-4" href="?page=1">Pierwsza</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Poprzednia</a>
         {% endif %}
 
         {% for num in page_obj.paginator.page_range %}
@@ -45,8 +49,8 @@
         {% endfor %}
 
         {% if page_obj.has_next %}
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.next_page_number }}">Następna</a>
+            <a class="btn btn-outline-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Ostatnia</a>
         {% endif %}
 
     {% endif %}

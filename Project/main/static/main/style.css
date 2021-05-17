@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap');
+
 .votes {
     color: darkblue;
 }
@@ -36,4 +38,9 @@
 
 .bronze {
  background-color: #e19b55 !important;
+}
+
+
+.title_font {
+    font-family: 'RocknRoll One', sans-serif;
 }

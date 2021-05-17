@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+{% block content %}
+
+<h1 class="mb-5">Raporty</h1>
+
+<ul>
+{% for raport in latest_question_list %}
+    {% if request.user == raport.user %}
+    <li><div> Data: {{ raport.pub_date }}</div>Raport dla użytkownika: {{ raport }}, częstotliwość mrugania: {{ raport.blinking}}, odległość od ekranu: {{ raport.distance }} </li>
+    {% endif %}
+{% endfor %}
+</ul>
+<div class="p-3 w-100 mb-5"></div>
+
+<span class="footer-classes">
+    {% block footer-class %} position-absolute w-100 {% endblock %}
+</span>
+{% endblock %}

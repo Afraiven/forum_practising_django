@@ -10,6 +10,7 @@ urlpatterns = [
     path('<int:question_id>/votedown/', views.vote_down, name='vote_down'),
     path('create_question/', views.create_question_view, name='create_question'),
     path('ranking/', views.RankingView.as_view(), name='ranking'),
+    path('raporty/', views.RaportView.as_view(), name='raporty'),
     path('category/', views.CategoryView.as_view(), name='category'),
     path('category/<str:category>/', views.CategoryIndexView.as_view(), name='category'),
     path('<int:comment_id>/delete_comment/', views.delete_comment, name='delete_comment'),

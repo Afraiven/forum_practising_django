@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% block content %}
 {% load crispy_forms_tags %}
-<h1 class="mb-4">Create new question</h1>
+<h1 class="mb-4">Utwórz pytanie</h1>
 <form action="/create_question/" method="post">
     {% csrf_token %}
     {{ form.question_text|as_crispy_field }}

@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h2 class="ml-3 mb-5">You are looking at <a href="{% url 'main:category' category_index.1 %}">#{{ category_index.1 }}</a> category</h2>
+<h2 class="ml-3 mb-5">Przeglądasz kategorię <a href="{% url 'main:category' category_index.1 %}">#{{ category_index.1 }}</a></h2>
 
 {% if category_index.0 %}
     {% for question in category_index.0 %}
@@ -15,10 +15,10 @@
             <p class="mb-1">{{ question.question_subtext }}</p>
             <small class="votes">Votes:  {{ question.votes }}</small>
             <small class="p-1"></small>
-            <small class="votes">Comments:  {{ question.comment_set.all.count }}</small>
+            <small class="votes">Komentarze:  {{ question.comment_set.all.count }}</small>
             <object>
                 <a href="/profile/{{ question.user.username }}">
-                    <small class="text-dark float-right">Posted By: <span class="text-primary">{{ question.user.username }}</span></small>
+                    <small class="text-dark float-right">Utworzone przez: <span class="text-primary">{{ question.user.username }}</span></small>
                 </a>
             </object>
             </a>

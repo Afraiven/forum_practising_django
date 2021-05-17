@@ -1,10 +1,10 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-<h1 class="mb-5">Categories</h1>
+<h1 class="mb-5">Kategorie</h1>
 
 {% for q in cat %}
-<div class="list-group-item-action flex-column align-items-start list-group-item"><ul><h3>Top 10 Questions from <a href="{% url 'main:category' q %}">#{{ q }}</a></h3>
+<div class="list-group-item-action flex-column align-items-start list-group-item"><ul><h3>Top 10 pytań z <a href="{% url 'main:category' q %}">#{{ q }}</a></h3>
     {% for p in q.questions.all|dictsort:"votes" reversed %}
         {% if forloop.counter < 11 %}
             <li><a href="{% url 'main:detail' p.id %}">{{ p }}</a> {{ p.votes }} votes</li>

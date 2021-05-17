@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1 class="mb-4">Register <span class="small text-secondary">| One step away from being an user !</span></h1>
+    <h1 class="mb-4">Rejestracja <span class="small text-secondary">| Jeden krok od zostania użytkownikiem !</span></h1>
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -9,12 +9,12 @@
                 {{ form|crispy }}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-dark" type="submit">Sign Up</button>
+                <button class="btn btn-outline-dark" type="submit">Zarejestruj się</button>
             </div>
         </form>
         <div class="border-top pt-3">
             <small class="text-muted">
-                Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+                Posiadzasz już konto ? <a class="ml-2" href="{% url 'login' %}">Zaloguj się</a>
             </small>
         </div>
     </div>

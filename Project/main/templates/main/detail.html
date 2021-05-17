@@ -35,7 +35,7 @@
 <div class="float-right mr-3 mt-2">Votes: {{ question.votes }}</div>
 <h2>{{ question.question_text }}</h2>
 <a class="float-right" href="/profile/{{ question.user.username }}">
-    <div class="text-dark mt-2">Posted By: <span class="text-primary">{{ question.user.username }}</span> {{ question.get_date }}</div>
+    <div class="text-dark mt-2">Utworzone przez: <span class="text-primary">{{ question.user.username }}</span> {{ question.get_date }}</div>
 </a>
 <legend class="border-bottom"></legend>
 <h3 class="w-75 mt-4 mb-5"><small>{{ question.question_subtext }}</small></h3>
@@ -53,9 +53,9 @@
         <small class="p-3"></small>
     </form>
 {% else %}
-    <h3 class="mt-5 mb-4">{{ question.comment_set.all.count }} Answers:
+    <h3 class="mt-5 mb-4">{{ question.comment_set.all.count }} odpowiedzi:
         <a class="float-right" href="/login/?next={% url 'main:detail' question.id %}">
-            <small class="text-primary mt-2">Login To Answer</small>
+            <small class="text-primary mt-2">Zaloguj się aby móc odpowiedzieć</small>
         </a>
     </h3>
 {% endif %}

@@ -5,8 +5,9 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.models import User
 
-from .models import Question, VoterUp, VoterDown, Comment, Category
+from .models import Question, VoterUp, VoterDown, Comment, Category, Report
 from .forms import CreateQuestionForm, CreateCommentForm
 
 
@@ -131,10 +132,33 @@ class RankingView(generic.ListView):
     context_object_name = 'latest_question_list'
     paginate_by = 10
 
+    def get(self, request):
+        from django.db.models import Count
+        # zwraca 10 użytkowników z największą ilością pytań
+        # zwraca 10 najlepszych pytań pod względem ilości głosów
+        return render(request, 'main/ranking.html', {'context': User.objects.annotate(ordering=Count('question')).order_by('-ordering'), 'latest_question_list': Question.objects.filter(pub_date__lte=timezone.now()).order_by('-votes')[:10]})
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['users_ranking'] = User.objects.all()[:10]
+
+        return context
+
     def get_queryset(self):
-        return Question.objects.filter(
-            pub_date__lte=timezone.now()
-        ).order_by('-votes')[:10]
+        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-votes')[:10]
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+@method_decorator(login_required(login_url="/login/"), name='dispatch')
+class RaportView(generic.ListView):
+    template_name = 'main/raport.html'
+    context_object_name = 'latest_question_list'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Report.objects.filter(pub_date__lte=timezone.now())
 
 
 class CategoryView(generic.ListView):
